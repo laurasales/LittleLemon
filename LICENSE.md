@@ -1,6 +1,6 @@
 All Rights Reserved
 
-Copyright (c) 2025 Your Name
+Copyright (c) 2025 Laura Sales Martínez
 
 This source code is proprietary and confidential.
 Unauthorized copying of this file, via any medium,
