@@ -10,13 +10,13 @@ import SwiftUI
 struct UserProfile: View {
     @Environment(\.presentationMode) var presentation
     
-    private let firstName: String = UserDefaults.standard.string(forKey: kFirstName) ?? ""
-    private let lastName: String = UserDefaults.standard.string(forKey: kLastName) ?? ""
-    private let email: String = UserDefaults.standard.string(forKey: kEmail) ?? ""
+    @State private var firstName: String = UserDefaults.standard.string(forKey: kFirstName) ?? ""
+    @State private var lastName: String = UserDefaults.standard.string(forKey: kLastName) ?? ""
+    @State private var email: String = UserDefaults.standard.string(forKey: kEmail) ?? ""
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 30) {
+            VStack(spacing: 24) {
                 VStack(spacing: 12) {
                     Text("Personal Information")
                         .font(.title)
@@ -31,31 +31,18 @@ struct UserProfile: View {
                 }
                 .padding(.top, 40)
                 
-                VStack(spacing: 15) {
-                    UserInfoRow(title: "First Name", value: firstName)
-                    UserInfoRow(title: "Last Name", value: lastName)
-                    UserInfoRow(title: "Email", value: email)
-                }
-                .padding(.horizontal)
+                ProfileForm(firstName: $firstName, lastName: $lastName, email: $email)
                 
                 Spacer()
                 
-                Button(action: {
-                    logout()
-                }) {
-                    Text("Logout")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                        .shadow(radius: 3)
-                }
-                .padding()
+                FilledButton(title: "Log out", shadowRadius: 3, onClick: logout)
+                    .padding()
             }
-            .navigationTitle("Profile")
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Logo()
+                }
+            }
         }
     }
     
