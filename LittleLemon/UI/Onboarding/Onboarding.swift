@@ -17,29 +17,59 @@ struct Onboarding: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 30) {
+            VStack(spacing: 22) {
+                Image("logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 40)
+                    .padding(.top, 20)
                 
-                VStack(spacing: 8) {
-                    Text("Welcome to ")
-                        .font(.largeTitle)
-                        .bold()
-                    + Text("Little Lemon")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.accentColor)
-                    
-                    Text("Create your account to continue")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
+                HStack {
+                    VStack(alignment: .leading, spacing: 12) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Little Lemon")
+                                .font(.largeTitle)
+                                .bold()
+                                .foregroundColor(.accent)
+                            
+                            Text("Chicago")
+                                .font(.title)
+                                .foregroundColor(.white)
+                        }
+
+                        Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
+                            .font(.body)
+                            .foregroundColor(.white)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    Spacer()
+
+                    Image("hero")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 120, height: 120)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
-                .padding(.top, 60)
-                .padding(.horizontal)
+                .padding()
+                .background(.primaryGreen)
                 
-                VStack(spacing: 16) {
-                    CustomTextField(placeholder: "First Name", text: $firstName)
-                    CustomTextField(placeholder: "Last Name", text: $lastName)
-                    CustomTextField(placeholder: "Email", text: $email, keyboardType: .emailAddress)
+                VStack(spacing: 12) {
+                    LabeledInputField(
+                        title: "First Name *",
+                        text: $firstName
+                    )
+
+                    LabeledInputField(
+                        title: "Last Name *",
+                        text: $lastName
+                    )
+
+                    LabeledInputField(
+                        title: "Email *",
+                        text: $email,
+                        keyboardType: .emailAddress
+                    )
                 }
                 .padding(.horizontal)
                 
@@ -56,7 +86,7 @@ struct Onboarding: View {
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.accentColor)
+                        .background(.primaryGreen)
                         .foregroundColor(.white)
                         .cornerRadius(12)
                         .shadow(radius: isValidForm() ? 3 : 0)
