@@ -10,6 +10,7 @@ import CoreData
 
 struct Menu: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @State private var searchText = ""
     
     var categories = ["Starters", "Desserts", "Drinks", "Specials"]
     
@@ -27,7 +28,13 @@ struct Menu: View {
                     }
                 }
             }
-            FetchedObjects() { (dishes: [Dish]) in
+            
+            TextField("Search menu", text: $searchText)
+            
+            FetchedObjects(
+                predicate: buildPredicate(),
+                sortDescriptors: buildSortDescriptors()
+            ) { (dishes: [Dish]) in
                 List {
                     ForEach(dishes) { dish in
                         NavigationLink(destination: FoodDetail(dish: dish)) {
@@ -70,6 +77,19 @@ struct Menu: View {
             oneDish.category = menuItem.category
         }
         try? context.save()
+    }
+    
+    private func buildSortDescriptors() -> [NSSortDescriptor] {
+        return [
+            NSSortDescriptor(key: "title", ascending: true, selector: #selector(NSString.localizedStandardCompare))
+        ]
+    }
+    
+    private func buildPredicate() -> NSPredicate {
+        if searchText.isEmpty {
+            return NSPredicate(value: true)
+        }
+        return NSPredicate(format: "title CONTAINS[cd] %@", searchText)
     }
 }
 
