@@ -46,13 +46,13 @@ struct FoodItem: View {
                 Text("\(dish.price ?? "0")€")
                     .font(.subheadline)
                     .bold()
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(.primaryGreen)
             }
             Spacer()
         }
         .padding(8)
         .background(Color.white.opacity(0.9))
         .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
+        //.shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
     }
 }

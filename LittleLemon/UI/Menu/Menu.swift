@@ -17,73 +17,25 @@ struct Menu: View {
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading) {
+            VStack(spacing: 24) {
+                HeroSection()
+                    .padding(.top, 6)
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Little Lemon")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.accentColor)
-                    Text("Barcelona")
-                        .font(.title3)
-                        .foregroundColor(.secondary)
-                    Text("iOS App Capstone")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                .padding(.horizontal)
-                .padding(.top)
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        ForEach(categories, id: \.self) { category in
-                            Text(category)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 16)
-                                .background(
-                                    ZStack {
-                                        if selectedCategory == category {
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .fill(Color.accentColor)
-                                                .shadow(radius: 3)
-                                        } else {
-                                            RoundedRectangle(cornerRadius: 20)
-                                                .fill(Color.gray.opacity(0.2))
-                                        }
-                                    }
-                                )
-                                .foregroundColor(selectedCategory == category ? .white : .black)
-                                .onTapGesture {
-                                    withAnimation(.spring()) {
-                                        if selectedCategory == category {
-                                            selectedCategory = nil
-                                        } else {
-                                            selectedCategory = category
-                                        }
-                                    }
-                                }
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.vertical, 4)
-                }
-                
-                FetchedObjects(
+                CategoriesSection(
+                    categories: categories,
+                    selectedCategory: $selectedCategory
+                )
+                                
+                MenuItemsSection(
                     predicate: buildPredicate(),
-                    sortDescriptors: buildSortDescriptors()
-                ) { (dishes: [Dish]) in
-                    List(dishes) { dish in
-                        NavigationLink(destination: FoodDetail(dish: dish)) {
-                            FoodItem(dish: dish)
-                                .padding(.vertical, 8)
-                        }
-                        .listRowBackground(Color.clear)
-                    }
-                    .listStyle(PlainListStyle())
+                    sort: buildSortDescriptors()
+                )
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Logo()
                 }
             }
-            .navigationTitle("Menu")
-            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText, prompt: "Search menu")
             .onAppear {
                 getMenuData()

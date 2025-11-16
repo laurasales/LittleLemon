@@ -33,19 +33,17 @@ struct FoodDetail: View {
                         .foregroundColor(.secondary)
                     
                     HStack {
-                        Text((dish.category ?? "").capitalized)
-                            .font(.subheadline)
-                            .padding(6)
-                            .background(Color.blue.opacity(0.2))
-                            .foregroundColor(.blue)
-                            .cornerRadius(8)
+                        CategoryItem(
+                            title: dish.category ?? "",
+                            isSelected: false
+                        ) {}
                         
                         Spacer()
                         
                         Text("\(dish.price ?? "0") €")
                             .font(.title3)
                             .bold()
-                            .foregroundColor(.accentColor)
+                            .foregroundColor(.primaryGreen)
                     }
                 }
                 .padding(.horizontal)
