@@ -17,7 +17,7 @@ struct Onboarding: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 22) {
+            VStack(spacing: 24) {
                 Image("logo")
                     .resizable()
                     .scaledToFit()
@@ -25,7 +25,7 @@ struct Onboarding: View {
                     .padding(.top, 20)
                 
                 HStack {
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Little Lemon")
                                 .font(.largeTitle)
@@ -54,7 +54,7 @@ struct Onboarding: View {
                 .padding()
                 .background(.primaryGreen)
                 
-                VStack(spacing: 12) {
+                VStack(spacing: 16) {
                     LabeledInputField(
                         title: "First Name *",
                         text: $firstName
