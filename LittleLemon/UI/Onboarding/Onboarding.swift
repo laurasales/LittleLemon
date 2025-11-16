@@ -18,60 +18,9 @@ struct Onboarding: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
-                Image("logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 40)
-                    .padding(.top, 20)
-                
-                HStack {
-                    VStack(alignment: .leading, spacing: 16) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("Little Lemon")
-                                .font(.largeTitle)
-                                .bold()
-                                .foregroundColor(.accent)
-                            
-                            Text("Chicago")
-                                .font(.title)
-                                .foregroundColor(.white)
-                        }
-
-                        Text("We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.")
-                            .font(.body)
-                            .foregroundColor(.white)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-
-                    Spacer()
-
-                    Image("hero")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 120, height: 120)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
-                .padding()
-                .background(.primaryGreen)
-                
-                VStack(spacing: 16) {
-                    LabeledInputField(
-                        title: "First Name *",
-                        text: $firstName
-                    )
-
-                    LabeledInputField(
-                        title: "Last Name *",
-                        text: $lastName
-                    )
-
-                    LabeledInputField(
-                        title: "Email *",
-                        text: $email,
-                        keyboardType: .emailAddress
-                    )
-                }
-                .padding(.horizontal)
+                Logo()
+                HeroSection()
+                OnboardingForm(firstName: $firstName, lastName: $lastName, email: $email)
                 
                 if showValidationError {
                     Text("Please enter valid information in all fields.")
@@ -81,24 +30,15 @@ struct Onboarding: View {
                         .padding(.horizontal)
                 }
                 
-                Button(action: register) {
-                    Text("Register")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(.primaryGreen)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                        .shadow(radius: isValidForm() ? 3 : 0)
-                }
-                .padding(.horizontal)
+                FilledButton(title: "Register", shadowRadius: isValidForm() ? 3 : 0, onClick: register)
+                    .padding(.horizontal)
                 
                 Spacer()
             }
             .onAppear {
                 let loggedIn = UserDefaults.standard.bool(forKey: kIsLoggedIn)
                 isLoggedIn = loggedIn
-
+                
                 if !loggedIn {
                     firstName = ""
                     lastName = ""
