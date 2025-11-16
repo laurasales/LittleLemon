@@ -17,29 +17,55 @@ struct Menu: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text("Little Lemon")
-                Text("Barcelona")
-                Text("iOS App Capstone")
+            VStack(alignment: .leading) {
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Little Lemon")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.accentColor)
+                    Text("Barcelona")
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+                    Text("iOS App Capstone")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.horizontal)
+                .padding(.top)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(categories, id: \.self) { category in
                             Text(category)
-                                .padding(8)
-                                .background(selectedCategory == category ? .accentColor : Color.gray.opacity(0.2))
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
+                                .background(
+                                    ZStack {
+                                        if selectedCategory == category {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .fill(Color.accentColor)
+                                                .shadow(radius: 3)
+                                        } else {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .fill(Color.gray.opacity(0.2))
+                                        }
+                                    }
+                                )
                                 .foregroundColor(selectedCategory == category ? .white : .black)
-                                .cornerRadius(8)
                                 .onTapGesture {
-                                    if selectedCategory == category {
-                                        selectedCategory = nil
-                                    } else {
-                                        selectedCategory = category
+                                    withAnimation(.spring()) {
+                                        if selectedCategory == category {
+                                            selectedCategory = nil
+                                        } else {
+                                            selectedCategory = category
+                                        }
                                     }
                                 }
                         }
                     }
                     .padding(.horizontal)
+                    .padding(.vertical, 4)
                 }
                 
                 FetchedObjects(
@@ -49,12 +75,15 @@ struct Menu: View {
                     List(dishes) { dish in
                         NavigationLink(destination: FoodDetail(dish: dish)) {
                             FoodItem(dish: dish)
+                                .padding(.vertical, 8)
                         }
+                        .listRowBackground(Color.clear)
                     }
                     .listStyle(PlainListStyle())
                 }
             }
             .navigationTitle("Menu")
+            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $searchText, prompt: "Search menu")
             .onAppear {
                 getMenuData()
